@@ -1,1 +1,452 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PepTek Affiliate Program</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #050e1f; font-family: 'Barlow', sans-serif; color: #d6e4f7; min-height: 100vh; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: #071428;
+      border-bottom: 1px solid rgba(0,196,204,0.18);
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    .topbar-grid {
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,196,204,0.03) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,196,204,0.03) 40px);
+      pointer-events: none;
+    }
+    .topbar-glow {
+      position: absolute; top: -40px; right: -40px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(193,51,184,0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .topbar-left { position: relative; z-index: 2; }
+    .eyebrow {
+      font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: #00c4cc; margin-bottom: 5px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .eyebrow::before { content: ''; display: block; width: 20px; height: 1px; background: #00c4cc; }
+    .hero-h1 {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: 2.8rem; letter-spacing: 0.06em; text-transform: uppercase;
+      color: #fff; line-height: 0.95;
+    }
+    .hero-h1 span { color: #c133b8; }
+    .hero-tagline { font-size: 0.80rem; color: #7a9abf; margin-top: 8px; max-width: 500px; line-height: 1.6; }
+    .logo-wrap {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      flex-shrink: 0; margin-left: 2rem;
+    }
+    .logo-wrap svg { width: 90px; height: 90px; }
+    .logo-brand { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 0.88rem; letter-spacing: 0.18em; text-transform: uppercase; color: #fff; text-align: center; }
+    .logo-sub { font-size: 0.56rem; letter-spacing: 0.20em; text-transform: uppercase; color: #00c4cc; text-align: center; }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: rgba(0,196,204,0.04);
+      border-bottom: 1px solid rgba(0,196,204,0.12);
+      padding: 0.85rem 2.5rem;
+      display: flex; align-items: center; gap: 2.5rem;
+    }
+    .stat { text-align: center; }
+    .stat-val { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.35rem; color: #00c4cc; }
+    .stat-lbl { font-size: 0.56rem; letter-spacing: 0.13em; text-transform: uppercase; color: #7a9abf; }
+    .stat-div { width: 1px; height: 28px; background: rgba(0,196,204,0.15); }
+
+    /* ── SECTION ── */
+    .section { padding: 2.2rem 2.5rem; }
+    .section-label {
+      font-size: 0.60rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #00c4cc; margin-bottom: 0.4rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(0,196,204,0.15); }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+      font-size: 1.35rem; letter-spacing: 0.10em; text-transform: uppercase;
+      color: #fff; margin-bottom: 1.1rem;
+    }
+
+    /* ── PATH BAR ── */
+    .path-bar {
+      display: flex; align-items: center;
+      background: rgba(7,20,40,0.8); border: 1px solid rgba(0,196,204,0.14);
+      border-radius: 4px; padding: 0.65rem 1.2rem; margin-bottom: 1.1rem;
+    }
+    .path-step { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .path-dot {
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.68rem;
+      cursor: pointer; transition: transform 0.15s; margin-bottom: 3px;
+    }
+    .path-dot:hover { transform: scale(1.12); }
+    .path-pct { font-size: 0.64rem; font-weight: 600; color: #7a9abf; }
+    .path-arrow { color: rgba(0,196,204,0.3); font-size: 0.8rem; padding: 0 4px; align-self: center; margin-bottom: 14px; }
+
+    /* ── TIER TABLE ── */
+    .tiers-table-wrap { overflow-x: auto; border-radius: 4px; border: 1px solid rgba(0,196,204,0.15); margin-bottom: 12px; }
+    .tiers-table { width: 100%; border-collapse: collapse; min-width: 780px; }
+    .tiers-table thead tr { border-bottom: 1px solid rgba(0,196,204,0.18); }
+    .tiers-table th {
+      padding: 0.55rem 0.9rem;
+      font-size: 0.54rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #7a9abf; font-weight: 600; text-align: left;
+      background: rgba(7,20,40,0.9);
+      white-space: nowrap;
+    }
+    .tiers-table th:first-child { min-width: 170px; }
+    .tiers-table tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer; transition: filter 0.15s;
+    }
+    .tiers-table tbody tr:last-child { border-bottom: none; }
+    .tiers-table tbody tr:hover { filter: brightness(1.12); }
+    .tiers-table td { padding: 0.75rem 0.9rem; vertical-align: middle; }
+    .td-tier { display: flex; align-items: center; gap: 10px; }
+    .tier-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.68rem;
+    }
+    .tier-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .tier-range { font-size: 0.60rem; color: #7a9abf; margin-top: 1px; }
+    .td-val { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.05rem; white-space: nowrap; }
+    .td-perks { font-size: 0.68rem; color: #a8c4e0; line-height: 1.5; }
+    .td-perks span { display: block; }
+    .td-perks span::before { content: '›  '; color: rgba(0,196,204,0.5); }
+
+    /* ── DETAIL PANEL ── */
+    .detail-panel {
+      background: #071428; border: 1px solid rgba(0,196,204,0.20);
+      border-radius: 4px; padding: 1.1rem 1.3rem; margin-top: 12px; display: none;
+    }
+    .detail-panel.visible { display: block; }
+    .detail-panel h3 {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      margin-bottom: 0.8rem; padding-bottom: 0.45rem;
+      border-bottom: 1px solid rgba(0,196,204,0.13);
+    }
+    .perks-full { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 5px 1.2rem; margin-bottom: 0.8rem; }
+    .perk-full { display: flex; align-items: flex-start; gap: 6px; font-size: 0.72rem; color: #a8c4e0; line-height: 1.4; }
+    .pf-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .rules-mini { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 6px; }
+    .rm { background: rgba(0,0,0,0.3); border-radius: 3px; padding: 0.5rem 0.7rem; border-left: 2px solid; }
+    .rm-lbl { font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: #7a9abf; margin-bottom: 2px; }
+    .rm-val { font-size: 0.76rem; font-weight: 500; color: #d6e4f7; }
+
+    /* ── CLAUSE ── */
+    .clause-wrap { padding: 0 2.5rem 2rem; }
+    .clause-box {
+      background: rgba(186,117,23,0.07);
+      border: 1px solid rgba(186,117,23,0.28);
+      border-left: 3px solid #ba7517;
+      border-radius: 0 4px 4px 0;
+      padding: 1.2rem 1.5rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .clause-icon { flex-shrink: 0; margin-top: 2px; }
+    .clause-icon svg { width: 20px; height: 20px; }
+    .clause-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.14em; text-transform: uppercase; color: #ef9f27; margin-bottom: 0.45rem; }
+    .clause-text { font-size: 0.78rem; line-height: 1.65; color: #a8c4e0; }
+    .clause-text strong { color: #d6e4f7; font-weight: 600; }
+    .clause-pills { display: flex; gap: 8px; margin-top: 0.7rem; flex-wrap: wrap; }
+    .clause-pill {
+      background: rgba(186,117,23,0.12); border: 1px solid rgba(186,117,23,0.25);
+      border-radius: 3px; padding: 0.28rem 0.65rem;
+      font-size: 0.64rem; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; color: #ef9f27;
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      padding: 2.5rem 2.5rem 3.5rem;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      border-top: 1px solid rgba(0,196,204,0.12);
+    }
+    .cta-label { font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: #00c4cc; margin-bottom: 0.6rem; }
+    .cta-heading {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: 2.2rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #fff; margin-bottom: 0.5rem;
+    }
+    .cta-heading span { color: #c133b8; }
+    .cta-sub { font-size: 0.82rem; color: #7a9abf; max-width: 440px; line-height: 1.6; margin-bottom: 1.8rem; }
+    .cta-btn {
+      display: inline-block;
+      padding: 1rem 3rem;
+      background: linear-gradient(90deg, #c133b8 0%, #8b22e0 50%, #00c4cc 100%);
+      background-size: 200% auto;
+      border: none; border-radius: 4px;
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+      font-size: 1.05rem; letter-spacing: 0.24em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer;
+      transition: background-position 0.4s, box-shadow 0.3s;
+      box-shadow: 0 4px 22px rgba(193,51,184,0.30);
+    }
+    .cta-btn:hover { background-position: right center; box-shadow: 0 6px 32px rgba(193,51,184,0.50); }
+    .cta-login { font-size: 0.74rem; color: #7a9abf; margin-top: 1rem; }
+    .cta-login a { color: #00c4cc; text-decoration: none; }
+    .cta-login a:hover { text-decoration: underline; }
+
+    /* ── COMPLIANCE FOOTER ── */
+    .compliance-footer {
+      background: rgba(193,51,184,0.08);
+      border-top: 3px solid #c133b8;
+      padding: 1.4rem 2.5rem;
+    }
+    .compliance-banner {
+      display: flex; align-items: flex-start; gap: 1rem;
+      max-width: 860px; margin: 0 auto;
+    }
+    .compliance-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.9rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: #e044d6; margin-bottom: 0.35rem;
+    }
+    .compliance-body {
+      font-size: 0.74rem; line-height: 1.65; color: #a8c4e0;
+    }
+    .compliance-body strong { color: #fff; font-weight: 600; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .tiers-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .perks-full { grid-template-columns: 1fr 1fr; }
+      .rules-mini { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .topbar { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.2rem; }
+      .logo-wrap { position: absolute; top: 1.2rem; right: 1.2rem; }
+      .topbar { position: relative; }
+      .stats-bar { padding: 0.85rem 1.2rem; gap: 1.2rem; overflow-x: auto; }
+      .section, .clause-wrap, .cta-section { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .hero-h1 { font-size: 2rem; }
+      .tiers-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-grid"></div>
+    <div class="topbar-glow"></div>
+    <div class="topbar-left">
+      <div class="eyebrow">Distributor Program</div>
+      <div class="hero-h1">Join <span>PepTek</span> Affiliates</div>
+      <div class="hero-tagline">Partner with a leading research compound supplier. Earn commissions, unlock free product credits, and scale from Research Affiliate to Elite Diamond.</div>
+    </div>
+    <div class="logo-wrap">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60 6 L107 33 L107 87 L60 114 L13 87 L13 33 Z" stroke="#c133b8" stroke-width="1.5" fill="rgba(193,51,184,0.06)"/>
+        <path d="M60 18 L97 40 L97 82 L60 102 L23 82 L23 40 Z" stroke="#00c4cc" stroke-width="0.8" fill="none"/>
+        <circle cx="60" cy="60" r="16" stroke="#c133b8" stroke-width="1" fill="rgba(193,51,184,0.08)"/>
+        <line x1="44" y1="60" x2="76" y2="60" stroke="#00c4cc" stroke-width="0.8"/>
+        <line x1="60" y1="44" x2="60" y2="76" stroke="#00c4cc" stroke-width="0.8"/>
+        <circle cx="60" cy="60" r="3" fill="#c133b8"/>
+        <circle cx="76" cy="60" r="2" fill="#00c4cc"/>
+        <circle cx="44" cy="60" r="2" fill="#00c4cc"/>
+        <circle cx="60" cy="44" r="2" fill="#00c4cc"/>
+        <circle cx="60" cy="76" r="2" fill="#00c4cc"/>
+      </svg>
+      <div class="logo-brand">PepTek</div>
+      <div class="logo-sub">Research Compounds</div>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-val">Up to 25%</div><div class="stat-lbl">Commission</div></div>
+    <div class="stat-div"></div>
+    <div class="stat"><div class="stat-val">Up to $1,200/mo</div><div class="stat-lbl">Free product</div></div>
+    <div class="stat-div"></div>
+    <div class="stat"><div class="stat-val">Up to $2,500</div><div class="stat-lbl">Quarterly bonus</div></div>
+    <div class="stat-div"></div>
+    <div class="stat"><div class="stat-val">Monthly</div><div class="stat-lbl">Commission payout</div></div>
+  </div>
+
+  <!-- TIER STRUCTURE -->
+  <div class="section">
+    <div class="section-label">Affiliate Tiers</div>
+    <div class="section-title">Commission Structure — Click any tier to expand</div>
+
+    <div class="path-bar">
+      <div class="path-step"><div class="path-dot" style="background:#0f1e30;border:2px solid #2a5a8a;color:#5a9abf;" onclick="showDetail(0)">LA</div><div class="path-pct">10%</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-step"><div class="path-dot" style="background:#1a2a4a;border:2px solid #4a7abf;color:#7ab4ef;" onclick="showDetail(1)">RA</div><div class="path-pct">10%</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-step"><div class="path-dot" style="background:#0d2a1a;border:2px solid #1d9e75;color:#5dcaa5;" onclick="showDetail(2)">PT</div><div class="path-pct">12%</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-step"><div class="path-dot" style="background:#1a1a3a;border:2px solid #534ab7;color:#afa9ec;" onclick="showDetail(3)">SP</div><div class="path-pct">15%</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-step"><div class="path-dot" style="background:#2a1a0a;border:2px solid #ba7517;color:#ef9f27;" onclick="showDetail(4)">GP</div><div class="path-pct">18%</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-step"><div class="path-dot" style="background:#2a0a2a;border:2px solid #993556;color:#ed93b1;" onclick="showDetail(5)">PP</div><div class="path-pct">20%</div></div>
+      <div class="path-arrow">›</div>
+      <div class="path-step"><div class="path-dot" style="background:#2a2a1a;border:2px solid #639922;color:#c0dd97;" onclick="showDetail(6)">ED</div><div class="path-pct">25%</div></div>
+    </div>
+
+    <div class="tiers-table-wrap">
+      <table class="tiers-table">
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Commission</th>
+            <th>Cust. Discount</th>
+            <th>Free Product</th>
+            <th>Qtrly Bonus</th>
+            <th>Key Perks</th>
+          </tr>
+        </thead>
+        <tbody id="tiersTableBody"></tbody>
+      </table>
+    </div>
+    <div class="detail-panel" id="detailPanel">
+      <h3 id="dp-title"></h3>
+      <div class="perks-full" id="dp-perks"></div>
+      <div class="rules-mini" id="dp-rules"></div>
+    </div>
+  </div>
+
+  <!-- CLAUSE -->
+  <div class="clause-wrap">
+    <div class="clause-box">
+      <div class="clause-icon">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 2L18 16H2L10 2Z" stroke="#ba7517" stroke-width="1.4" stroke-linejoin="round" fill="rgba(186,117,23,0.12)"/>
+          <line x1="10" y1="8" x2="10" y2="12" stroke="#ba7517" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="10" cy="14" r="0.8" fill="#ba7517"/>
+        </svg>
+      </div>
+      <div>
+        <div class="clause-title">Store Credit Suspension Policy</div>
+        <div class="clause-text">
+          Affiliates who fall below <strong>$1,000 in monthly sales for 90 consecutive days</strong> will have their future store credit earnings suspended. Credits will remain suspended until the affiliate achieves <strong>$1,000 in sales within a single 30-day period</strong>, at which point store credit earnings will automatically resume.
+        </div>
+        <div class="clause-pills">
+          <div class="clause-pill">Trigger: &lt;$1,000/mo for 90 days</div>
+          <div class="clause-pill">Suspension: Store credit only</div>
+          <div class="clause-pill">Reinstatement: $1,000 in any 30-day period</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-label">Ready to start earning?</div>
+    <div class="cta-heading">Become a <span>PepTek</span> Partner</div>
+    <div class="cta-sub">Create your affiliate account in minutes. Start at Research Affiliate and grow your way to Elite Diamond.</div>
+    <a href="https://partner.pep-tek.com" class="cta-btn">Apply Now</a>
+  </div>
+
+  <!-- COMPLIANCE FOOTER -->
+  <div class="compliance-footer">
+    <div class="compliance-banner">
+      <svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;margin-top:2px;">
+        <path d="M10 2L18 16H2L10 2Z" stroke="#e044d6" stroke-width="1.4" stroke-linejoin="round" fill="rgba(193,51,184,0.15)"/>
+        <line x1="10" y1="8" x2="10" y2="12" stroke="#e044d6" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="10" cy="14" r="0.8" fill="#e044d6"/>
+      </svg>
+      <div>
+        <div class="compliance-heading">For Research Use Only</div>
+        <div class="compliance-body">PepTek products are strictly research-grade chemicals. Affiliates may <strong>not</strong> make health claims, imply human consumption, or suggest FDA approval. Violations result in <strong>immediate program termination.</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tiers = [
+      {id:'LA',name:'Lab Associate',range:'$0 – $999 / mo',comm:'10%',disc:'10%',free:'—',qtrly:'—',
+       color:{bg:'#0a1520',border:'#1e3a5a',badge:'#0f1e30',badgeBorder:'#2a5a8a',badgeText:'#5a9abf',val:'#5a9abf',dot:'#2a5a8a'},
+       perks:['Affiliate link + tracking dashboard','PepTek digital starter pack','Marketing materials provided','No free product credit at this tier'],
+       rules:[{l:'Free product',v:'Not included'},{l:'Milestone bonus',v:'N/A'},{l:'Commission pay',v:'Paid monthly'},{l:'Returns',v:'Commission forfeited'}]},
+      {id:'RA',name:'Research Affiliate',range:'$1,000 – $1,999 / mo',comm:'10%',disc:'10%',free:'$150/mo',qtrly:'—',
+       color:{bg:'#0d1e38',border:'#2a5090',badge:'#1a2a4a',badgeBorder:'#4a7abf',badgeText:'#7ab4ef',val:'#7ab4ef',dot:'#4a7abf'},
+       perks:['Affiliate link + tracking dashboard','PepTek digital starter pack','Marketing materials provided','Monthly product credit ($150 retail)'],
+       rules:[{l:'Free product',v:'Personal use only'},{l:'Milestone bonus',v:'First-reach only'},{l:'Commission pay',v:'Paid monthly'},{l:'Returns',v:'Commission forfeited'}]},
+      {id:'PT',name:'Partner',range:'$2,000 – $4,999 / mo',comm:'12%',disc:'10%',free:'$200/mo',qtrly:'—',
+       color:{bg:'#071f14',border:'#0f6e56',badge:'#0d2a1a',badgeBorder:'#1d9e75',badgeText:'#5dcaa5',val:'#5dcaa5',dot:'#1d9e75'},
+       perks:['All RA perks','2% commission increase','Monthly product credit ($200 retail)','$150 first-hit milestone bonus'],
+       rules:[{l:'Milestone',v:'$150 first reach'},{l:'Free product',v:'Personal use only'},{l:'Commission pay',v:'Paid monthly'},{l:'Returns',v:'Commission forfeited'}]},
+      {id:'SP',name:'Silver Partner',range:'$5,000 – $9,999 / mo',comm:'15%',disc:'12%',free:'$350/mo',qtrly:'$200',
+       color:{bg:'#0e0e28',border:'#3c3489',badge:'#1a1a3a',badgeBorder:'#534ab7',badgeText:'#afa9ec',val:'#afa9ec',dot:'#534ab7'},
+       perks:['All Partner perks','Customer discount raised to 12%','Monthly product credit ($350 retail)','$200 quarterly bonus · $300 milestone'],
+       rules:[{l:'Qtrly bonus',v:'$200 (full quarter)'},{l:'Milestone',v:'$300 first reach'},{l:'Commission pay',v:'Paid monthly'},{l:'Returns',v:'Commission forfeited'}]},
+      {id:'GP',name:'Gold Partner',range:'$10,000 – $24,999 / mo',comm:'18%',disc:'15%',free:'$500/mo',qtrly:'$500',
+       color:{bg:'#1e1204',border:'#854f0b',badge:'#2a1a0a',badgeBorder:'#ba7517',badgeText:'#ef9f27',val:'#ef9f27',dot:'#ba7517'},
+       perks:['All Silver perks','Customer discount raised to 15%','Monthly product credit ($500 retail)','$500 quarterly bonus · $500 milestone · Priority support'],
+       rules:[{l:'Qtrly bonus',v:'$500 (full quarter)'},{l:'Priority support',v:'Dedicated contact'},{l:'Commission pay',v:'Paid monthly'},{l:'Returns',v:'Commission forfeited'}]},
+      {id:'PP',name:'Platinum Partner',range:'$25,000 – $49,999 / mo',comm:'20%',disc:'15%',free:'$750/mo',qtrly:'$1,000',
+       color:{bg:'#200a20',border:'#72243e',badge:'#2a0a2a',badgeBorder:'#993556',badgeText:'#ed93b1',val:'#ed93b1',dot:'#993556'},
+       perks:['All Gold perks','Monthly product credit ($750 retail)','$1,000 quarterly bonus · $1,000 milestone','Co-branded assets · Quarterly strategy call'],
+       rules:[{l:'Qtrly bonus',v:'$1,000 (full quarter)'},{l:'Co-branding',v:'Assets by PepTek'},{l:'Commission pay',v:'Paid monthly'},{l:'Returns',v:'Commission forfeited'}]},
+      {id:'ED',name:'Elite Diamond',range:'$50,000+ / mo',comm:'25%',disc:'20%',free:'$1,200/mo',qtrly:'$2,500',
+       color:{bg:'#121c0a',border:'#3b6d11',badge:'#2a2a1a',badgeBorder:'#639922',badgeText:'#c0dd97',val:'#c0dd97',dot:'#639922'},
+       perks:['All Platinum perks','Customer discount raised to 20%','Monthly product credit ($1,200 retail)','$2,500 quarterly bonus · $2,000 milestone · Equity conversation eligibility'],
+       rules:[{l:'Qtrly bonus',v:'$2,500 (full quarter)'},{l:'Equity',v:'Conversation eligible'},{l:'Commission pay',v:'Paid monthly'},{l:'Returns',v:'Commission forfeited'}]}
+    ];
+
+    function makeRow(t, idx) {
+      return `<tr onclick="showDetail(${idx})" style="background:${t.color.bg};">
+        <td>
+          <div class="td-tier">
+            <div class="tier-badge" style="background:${t.color.badge};border:2px solid ${t.color.badgeBorder};color:${t.color.badgeText};">${t.id}</div>
+            <div>
+              <div class="tier-name" style="color:${t.color.badgeText};">${t.name}</div>
+              <div class="tier-range">${t.range}</div>
+            </div>
+          </div>
+        </td>
+        <td><div class="td-val" style="color:${t.color.val};">${t.comm}</div></td>
+        <td><div class="td-val" style="color:${t.color.val};">${t.disc}</div></td>
+        <td><div class="td-val" style="color:${t.color.val};font-size:0.9rem;">${t.free}</div></td>
+        <td><div class="td-val" style="color:${t.color.val};font-size:0.9rem;">${t.qtrly}</div></td>
+        <td><div class="td-perks">${t.perks.slice(0,2).map(p=>`<span>${p}</span>`).join('')}</div></td>
+      </tr>`;
+    }
+
+    document.getElementById('tiersTableBody').innerHTML = tiers.map(makeRow).join('');
+
+    let activeIdx = -1;
+    function showDetail(idx) {
+      const panel = document.getElementById('detailPanel');
+      if (activeIdx === idx) { panel.classList.remove('visible'); activeIdx = -1; return; }
+      activeIdx = idx;
+      const t = tiers[idx];
+      document.getElementById('dp-title').textContent = t.name + ' — Full Breakdown';
+      document.getElementById('dp-title').style.color = t.color.badgeText;
+      document.getElementById('dp-perks').innerHTML = t.perks.map(p =>
+        `<div class="perk-full"><div class="pf-dot" style="background:${t.color.dot};"></div>${p}</div>`
+      ).join('');
+      document.getElementById('dp-rules').innerHTML = t.rules.map(r =>
+        `<div class="rm" style="border-left-color:${t.color.dot};"><div class="rm-lbl">${r.l}</div><div class="rm-val">${r.v}</div></div>`
+      ).join('');
+      panel.style.borderColor = t.color.border;
+      panel.classList.add('visible');
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+
+</body>
+</html>
